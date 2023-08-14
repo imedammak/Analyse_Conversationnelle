@@ -1,0 +1,138 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Create User{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">User</a></li>
+                            <li class="active">Create</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+<style>
+    form {
+        font-size: 14px;
+        font-family: Calibri, sans-serif;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Create User</strong>
+            </div>
+            <div class="card-body">
+                <!-- Invite Code -->
+                <div id="generate-code">
+                    <div class="card-body">
+                        <form action="#" method="post" novalidate="novalidate">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="email-input">E-mail</label>
+                                <input type="email" id="email-input" name="email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="invite-code-input" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <button id="generate-code-button" type="button" class="btn btn-lg btn-info btn-block">
+                                    Generate Invite Code
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- .card -->
+    </div><!--/.col-->
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    document.getElementById("generate-code-button").addEventListener("click", function(event) {
+        // Get entered email
+        var email = document.getElementById("email-input").value;
+    
+        // Request to generate invitation code
+        $.ajax({
+            url: "{% url 'ajax_generate_invite_code' %}",  // replace with the URL of ajax_generate_invite_code
+            method: 'POST',
+            headers: { "X-CSRFToken": getCookie("csrftoken") },
+            success: function(response) {
+                // Display invitation code
+                document.getElementById("invite-code-input").value = response.invitation_code;
+                
+                // Send email with invitation code
+                sendEmail(email, response.invitation_code);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Failed to generate invitation code: ", textStatus, errorThrown);
+            }
+        });
+    });
+    
+    function sendEmail(email, code) {
+        var subject = "Invitation Code";
+        var message = "Here is your invitation code: " + code;
+        var fromEmail = "noreply@example.com";
+    
+        $.ajax({
+            url: "{% url 'send_email' %}",
+            method: 'POST',
+            headers: { "X-CSRFToken": getCookie("csrftoken") },
+            data: { 
+                email: email,
+                subject: subject,
+                message: message,
+                from_email: fromEmail 
+            },
+            success: function(response) {
+                console.log("Email sent successfully.", response);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Failed to send email: ", textStatus, errorThrown);
+            }
+        });
+    }
+    
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+    
+    
+</script>
+{% endblock content %}

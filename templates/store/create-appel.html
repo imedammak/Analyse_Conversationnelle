@@ -1,0 +1,77 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Details Appels{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">Appels</a></li>
+                            <li class="active">Create</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Details Appels</strong>
+            </div>
+            <div class="card-body">
+                {% if message %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+                {% endif %}
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="#" method="post" enctype="multipart/form-data" novalidate="novalidate">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="files">Upload JSON Files</label>
+                                <input type="file" class="form-control-file" name="files" id="files" multiple>
+                            </div>
+                            <div id="progress-bar-container" style="display: none;">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <button id="create-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                    <span id="button-text">Create Details Appels</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('create-button').addEventListener('click', function () {
+        document.getElementById('progress-bar-container').style.display = 'block';
+        document.getElementById('button-text').innerText = 'Processing...';
+    });
+</script>
+{% endblock content %}

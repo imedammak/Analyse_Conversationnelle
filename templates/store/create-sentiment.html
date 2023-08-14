@@ -1,0 +1,54 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block extra_head %}
+<style>
+    body {
+        font-family: Calibri, sans-serif;
+        color: black;
+    }
+
+    .converted-text {
+        font-family: Calibri, sans-serif;
+        text-align: left;
+        color: black;
+    }
+
+    .sentiment-percentages {
+        font-family: Calibri, sans-serif;
+        text-align: left;
+        color: black;
+        margin-top: 20px;
+    }
+    
+
+</style>
+{% endblock %}
+
+{% block content %}
+<h1 style="font-size: 18px;"><strong>Upload MP3 File for Sentiment Analysis</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.audio_file }}
+    {% if converted_text %}
+    <p class="converted-text">{{ converted_text }}</p>
+    {% endif %}
+    <button type="submit" class="btn btn-primary">Convert</button>
+</form>
+
+{% if data %}
+<!-- Display the plot -->
+<div style="background-color: rgb(242, 244, 244);">
+    <img src="data:image/png;base64,{{ data }}" class="plot-image" />
+</div>
+
+<!-- Display sentiment percentages -->
+{% if sentiment_percentages %}
+<div class="sentiment-percentages">
+    <p>Positive: {{ sentiment_percentages.positive }}%</p>
+    <p>Negative: {{ sentiment_percentages.negative }}%</p>
+    <p>Neutral: {{ sentiment_percentages.neutral }}%</p>
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}

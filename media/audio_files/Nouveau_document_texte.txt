@@ -1,0 +1,6 @@
+Name
+Address
+Email
+Username
+Password
+Retype Password

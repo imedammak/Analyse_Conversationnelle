@@ -1,0 +1,279 @@
+{% extends 'base/base.html' %}
+{% block title %}Transcription View{% endblock title %}
+{% load static %}
+
+{% block content %}
+<style>
+    .transcription-container {
+        font-family: 'Calibri', sans-serif;
+        min-height: 100vh;
+        background-color: #F2F4F4;
+        background-size: cover;
+        background-position: center;
+        padding: 50px;
+        color: #000;
+    }
+
+    .transcription-container h2 {
+        font-family: 'Calibri', sans-serif;
+
+        font-size: 32px;
+        margin-bottom: 20px;
+        font-weight: normal;
+        color: #000;
+        text-align: left;
+    }
+
+    .transcription-container p {
+        font-family: 'Calibri', sans-serif;
+
+        font-size: 18px;
+        color: #000;
+    }
+
+    .bold-text {
+        font-family: 'Calibri', sans-serif;
+
+        font-weight: bold;
+    }
+
+    .normal-text {
+        font-family: 'Calibri', sans-serif;
+
+        font-weight: normal;
+    }
+
+    .transcription-lines {
+        font-family: 'Calibri', sans-serif;
+
+        margin-top: 20px;
+    }
+
+    .message-container {
+        font-family: 'Calibri', sans-serif;
+
+        margin-bottom: 10px;
+    }
+
+    .user-message {
+        font-family: 'Calibri', sans-serif;
+
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .agent-message {
+        font-family: 'Calibri', sans-serif;
+
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .message-bubble {
+        font-family: 'Calibri', sans-serif;
+
+        max-width: 70%;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 5px;
+    }
+
+    .user-message .message-bubble {
+        font-family: 'Calibri', sans-serif;
+
+        background-color: #DCF8C6;
+        color: green;
+
+    }
+
+    .agent-message .message-bubble {
+        font-family: 'Calibri', sans-serif;
+
+        background-color: #F0F0F0 !important;
+        margin-right: auto !important;
+    }
+
+
+    .agent {
+        font-family: 'Calibri', sans-serif;
+        font-weight: bold;
+        font-size: 14px;
+
+    }
+
+    .label {
+        font-family: 'Calibri', sans-serif;
+
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin-right: 5px;
+        vertical-align: middle;
+    }
+
+    .red {
+        font-family: 'Calibri', sans-serif;
+
+        background-color: red;
+    }
+
+    .blue {
+        font-family: 'Calibri', sans-serif;
+
+        background-color: blue;
+    }
+
+    .green {
+        font-family: 'Calibri', sans-serif;
+
+        background-color: green;
+    }
+
+    .purple {
+        font-family: 'Calibri', sans-serif;
+
+        background-color: purple;
+    }
+
+    .orange {
+        font-family: 'Calibri', sans-serif;
+
+        background-color: orange;
+    }
+
+    .pink {
+        font-family: 'Calibri', sans-serif;
+
+        background-color: #FF69B4;
+    }
+
+    .percentage-container {
+        font-family: 'Calibri', sans-serif;
+
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .pie-chart-container {
+        font-family: 'Calibri', sans-serif;
+
+        width: 300px;
+        height: 300px;
+        margin: 0 auto;
+    }
+
+    .agent{
+        display: flex;
+        justify-content: flex-end;    }
+    .agent-content{
+        font-family: 'Calibri', sans-serif;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #DCF8C6;
+        color: green;
+
+    }
+    .customer{
+        float:left;
+    }
+    .customer-content{
+        font-family: 'Calibri', sans-serif;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #77B5FE;
+        color: white;
+    }
+</style>
+
+<div class="transcription-container">
+    <div style="text-align: center;">
+        <h4>Transcription</h4>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12">
+            {% if error %}
+                <p>{{ error }}</p>
+            {% elif transcription_lines %}
+                <div class="transcription-lines">
+                        {% for line in transcription_lines %}
+                        {% if line.header %}
+                            <p style="margin-bottom:0 !important;" class="header {% if 'Customer' in line.header %}customer{% else %}agent{% endif %}">
+
+                                <span>
+                                    {{ line.header }}
+                                </span>
+                            </p>
+                            <br><br>
+
+
+                                <div class="message-container {% if 'Customer' in line.header %}customer{% else %}agent{% endif %}">
+
+                                <div class=" {% if 'Customer' in line.header %}customer-content{% else %}agent-content{% endif %}">
+
+                        {% endif %}
+
+                        {% if line.content %}
+                                    {% for color in line.colors %}
+                                        <div class="label {{ color }}"></div>
+                                    {% endfor %}
+                                    {{ line.content }}
+                                </div>
+                            </div>
+                        
+                        {% endif %}
+                        
+                    {% endfor %}
+                
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6">
+            <h2 style="text-align: left;"><strong>Topics</strong></h2>
+            <ul>
+                {% for topic, details in topics.items %}
+                    <ul>
+                        <span class="label {{ details.color }}">&nbsp;</span><strong>{{ topic }}</strong>
+                    </ul>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        
+        
+
+        <div class="col-xl-6">
+            <div class="percentage-container"  >
+                <div id="pie-chart-container" class="pie-chart-container"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    var customerPercentage = {{ appel.right_percentage }};
+    var chaymaPercentage = {{ appel.left_percentage }};
+
+    var data = [{
+        values: [customerPercentage, chaymaPercentage],
+        labels: ['Customer', '{{ appel.firstname }}'],
+        type: 'pie'
+    }];
+
+    var layout = {
+        title: 'Percentage of interruptions',
+        paper_bgcolor: 'rgba(0,0,0,0)',   // This will make the plot's background transparent
+        plot_bgcolor: 'rgb(242,244,244)'  // This will set the plot's background to grey
+    };
+
+    Plotly.newPlot('pie-chart-container', data, layout);
+</script>
+
+
+{% endblock content %}

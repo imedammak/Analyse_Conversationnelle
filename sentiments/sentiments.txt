@@ -1,0 +1,8 @@
+ Hello.: p
+Good evening.: o
+Hello.: s
+Yeah, speaking.: i
+Yeah, I'm okay.: t
+I've read your reviews.: i
+Yeah, I'm not going to go ahead with it.: v
+Pardon?: e

@@ -1,0 +1,48 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Accueil{% endblock title %}
+
+{% block styles %}
+    <style>
+        body {
+            background-color: #f2f2f2;
+        }
+        .social-icons {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+        }
+        .social-icons a:not(:last-child) {
+            margin-right: 10px;
+        }
+    </style>
+{% endblock styles %}
+
+{% block content %}
+    <img src="{% static 'images/Capture.PNG' %}" alt="Capture d'écran">
+    <h2 style="font-family: Calibri; text-align: center; font-weight: bold; color: brown;">Nos Objectifs</h2>
+    <p style="text-align: center; ">
+        L'objectif de Foodomarket est d'optimiser la gestion des restaurants en étroite liaison avec leurs fournisseurs.
+    </p>
+    <div style="text-align: center;">
+        <p style="color: brown;">
+            <i class="fa fa-arrow-circle-down"></i> BAISSEZ VOS COÛTS
+        </p>
+        <p style="color: brown;">
+            <i class="fa fa-clock"></i> GAGNEZ DU TEMPS
+        </p>
+        <p style="color: brown;">
+            <i class="fa fa-heart"></i> FIDÉLISEZ VOS CLIENTS
+        </p>
+    </div>
+    
+    <div class="social-icons" style="text-align: center; margin-top: 50px;">
+        <a href="https://www.facebook.com/foodomarket">
+            <img src="{% static 'images/facebook.png' %}" alt="Facebook" style="width: 40px; height: 40px; margin-right: 10px;">
+        </a>
+        <a href="https://www.instagram.com/foodomarket">
+            <img src="{% static 'images/insta.png' %}" alt="Instagram" style="width: 40px; height: 40px;">
+        </a>
+    </div>
+{% endblock content %}

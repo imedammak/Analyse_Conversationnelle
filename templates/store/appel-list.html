@@ -1,0 +1,93 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Details Appels List{% endblock title %}
+
+{% block breadcrumbs %}
+
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">Appels</a></li>
+                            <li class="active">List</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="box-title">Details Appels List </h4>
+            </div>
+            <div class="card-body--">
+                <div class="table-stats order-table ov-h">
+                    <div class="card-body">
+                        <form method="GET" action="{% url 'appel-list' %}">
+                            <div class="form-group">
+                                <input type="text" name="search" class="form-control" placeholder="Search by firstname ">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </form>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="serial">#</th>
+                                <th style="font-size: 12px; font-family: Calibri, sans-serif;">record</th>
+                                <th style="font-size: 12px; font-family: Calibri, sans-serif;">firstname</th>
+                                <th style="font-size: 12px; font-family: Calibri, sans-serif;">incall_duration</th>
+                                <th style="font-size: 12px; font-family: Calibri, sans-serif;">to_number</th>
+                                <th style="font-size: 12px; font-family: Calibri, sans-serif;">from_number</th>
+                                <th style="font-size: 12px; font-family: Calibri, sans-serif;">tags</th>
+                                <th style="font-size: 12px; font-family: Calibri, sans-serif;">Details</th>
+                                <th style="font-size: 12px; font-family: Calibri, sans-serif;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if appels %}
+                            {% for appel in appels %}
+                            <tr>
+                                <td class="serial">{{ forloop.counter }}</td>
+                                <td><a href="{{ appel.record }}"><img src="{% static 'images/appel1.jpg' %}" alt="Record Icon"></a></td>
+                                <td style="font-size: 12px; font-family: Calibri, sans-serif;">{{ appel.firstname }}</td>
+                                <td style="font-size: 12px; font-family: Calibri, sans-serif;">{{ appel.total_duration }}</td>
+                                <td style="font-size: 12px; font-family: Calibri, sans-serif;">{{ appel.to_number }}</td>
+                                <td style="font-size: 12px; font-family: Calibri, sans-serif;">{{ appel.from_number }}</td> 
+                                <td style="font-size: 12px; font-family: Calibri, sans-serif;">{{ appel.tags }}</td>                 
+                                <td><a href="{% url 'transcription-view' appel.pk %}" style="font-size: 12px; font-family: Calibri, sans-serif;">View Transcription</a></td>
+                                <td style="font-size: 12px; font-family: Calibri, sans-serif;">{{ appel.transcription | truncatechars:20 }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="7" style="font-size: 12px; font-family: Calibri, sans-serif;">No Appels </td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                    
+                </div> <!-- /.table-stats -->
+            </div>
+        </div> <!-- /.card -->
+    </div>  <!-- /.col-lg-8 -->
+</div>
+{% endblock content %}
