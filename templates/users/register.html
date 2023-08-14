@@ -1,0 +1,197 @@
+<!doctype html>
+{% load static %}
+{% csrf_token %}
+<html class="no-js" lang="">
+ 
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Foodo | Register</title>
+    <meta name="description" content="Ela Admin - HTML5 Admin Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="https://imgur.com/THdL5pX.png">
+    <link rel="shortcut icon" href="https://imgur.com/THdL5pX.png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+    <link rel="stylesheet" href="{% static 'assets/css/cs-skin-elastic.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+
+    <link href='https://fonts.googleapis.com/css?family=Calibri:400,600,700' rel='stylesheet' type='text/css'>
+<style>
+    body {
+        background: url("{% static 'images/TEL.jpg' %}") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        font-size: 12px;
+        font-family: Calibri, sans-serif;
+    }
+
+    .form-field {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .form-field label {
+        margin-right: 10px;
+        width: 120px;
+    }
+
+    .form-field input[type="text"],
+    .form-field input[type="email"],
+    .form-field input[type="password"] {
+        flex: 1;
+    }
+
+    .btn {
+        font-size: 12px;
+    }
+
+    .register-link {
+        font-size: 12px;
+    }
+
+    .note {
+        font-size: 12px;
+        text-align: center;
+    }
+
+    h2 {
+        font-size: 30px;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    .password-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+
+    .password-icon i {
+        color: #000; /* Change the color to black */
+        font-size: 16px;
+    }
+
+    .password-icon.active i.fa-eye {
+        display: none;
+    }
+
+    .password-icon.active i.fa-eye-slash {
+        display: inline;
+    }
+
+    /* Adjust the width of the password fields */
+    .form-field input[type="password"] {
+        width: 100%;
+    }
+</style>
+
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
+</head>
+
+<body class="bg-dark">
+    <div class="sufee-login d-flex align-content-center flex-wrap">
+        <div class="container">
+            <div class="login-content">
+                <div class="login-logo">
+                    <h2 style="color: #fff">Welcome To  FOODO-CAP</h2>
+                </div>
+
+                <div class="login-form">
+                    {% if messages %}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <form method="POST" action="{% url 'register' %}">
+                        {% csrf_token %}
+                        <div class="form-field form-group">
+                            <label>Name:<span style="color:red">*</span></label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+                        <div class="form-field form-group">
+                            <label>Address:<span style="color:red">*</span></label>
+                            <input type="text" name="address" class="form-control" required>
+                        </div>
+                        <div class="form-field form-group">
+                            <label>Email:<span style="color:red">*</span></label>
+                            <input type="email" name="email" class="form-control" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" required>
+                        </div>
+                        <div class="form-field form-group">
+                            <label>Username:<span style="color:red">*</span></label>
+                            <input type="text" name="username" class="form-control" required>
+                        </div>
+                        <div class="form-field form-group">
+                            <label>Password:<span style="color:red">*</span></label>
+                            <div class="position-relative">
+                                <input type="password" name="password1" class="form-control" required>
+                                <span class="password-icon">
+                                    <i class="fa fa-eye"></i>
+                                    <i class="fa fa-eye-slash"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-field form-group">
+                            <label>Confirm Password:<span style="color:red">*</span></label>
+                            <div class="position-relative">
+                                <input type="password" name="password2" class="form-control" required>
+                                <span class="password-icon">
+                                    <i class="fa fa-eye"></i>
+                                    <i class="fa fa-eye-slash"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-field form-group">
+                            <label>Invitation Code:<span style="color:red">*</span></label>
+                            <input type="text" name="invitation_code" class="form-control" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30">Sign Up</button>
+
+                        <div class="register-link m-t-15 text-center">
+                            <p>Already have an account? <a href="{% url 'login' %}">Log in here</a></p>
+                        </div>
+                        <div class="note text-center">
+                            <p><span style="color:red">*</span> Indicates a required field</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight-min.js"></script>
+    <script src="{% static 'main.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.password-icon').click(function () {
+                var inputField = $(this).siblings('input');
+                var icon = $(this).find('i');
+
+                if (inputField.attr('type') === 'password') {
+                    inputField.attr('type', 'text');
+                    icon.removeClass('fa-eye').addClass('fa-eye-slash');
+                } else {
+                    inputField.attr('type', 'password');
+                    icon.removeClass('fa-eye-slash').addClass('fa-eye');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
