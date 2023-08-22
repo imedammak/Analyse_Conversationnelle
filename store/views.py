@@ -195,7 +195,9 @@ def store_json_to_db(file_path, progress_bar):
     with open(file_path, 'r') as json_file:
         data = json.load(json_file)
         for call in data['call_list']:
-            tags = ", ".join(tag['name'] for tag in call.get('tags', []))
+            tags_list = call.get('tags') or []
+            tags = ", ".join(tag['name'] for tag in tags_list)
+            
             call_id = call.get('call_id')
             if not Appel.objects.filter(call_id=call_id).exists():
                 # Convert incall_duration into timedelta object and then format it into a string
@@ -212,7 +214,7 @@ def store_json_to_db(file_path, progress_bar):
                 appel = Appel(
                     record=call['record'],
                     firstname=call['user']['firstname'],
-                    total_duration=incall_duration_str,  # Change this to incall_duration_str
+                    total_duration=incall_duration_str,  
                     to_number=call['to_number'],
                     from_number=call['from_number'],
                     call_id=call_id ,
