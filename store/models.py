@@ -50,7 +50,7 @@ class Appel(models.Model):
             sound.export(wav_file_path, format="wav")
 
             # Load whisper model
-            model_size = 'medium'
+            model_size = 'small'
             model = load_model(model_size)
 
             # Split the audio file into segments based on silence
